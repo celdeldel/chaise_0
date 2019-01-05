@@ -148,9 +148,9 @@ class trainer:
             # grow network.
             if floor(self.resl) != prev_resl and floor(self.resl)<self.max_resl+1:
                 self.lr = self.lr * float(self.config.lr_decay)
-                self.G.module.grow_network(floor(self.resl))
+                self.G.grow_network(floor(self.resl))
                 #self.Gs.module.grow_network(floor(self.resl))
-                self.D.module.grow_network(floor(self.resl))
+                self.D.grow_network(floor(self.resl))
                 self.renew_everything()
                 self.fadein['gen'] = self.G.module.model.fadein_block
                 self.fadein['dis'] = self.D.module.model.fadein_block
@@ -290,15 +290,15 @@ class trainer:
                 #tqdm.write(log_msg)
 
                 # save model.
-                self.snapshot('repo/model')
+                self.snapshot('chaise_0/repo/model')
 
                 # save image grid.
                 if self.globalIter%self.config.save_img_every == 0:
                     x_test = self.G(self.z_test)
-                    os.system('mkdir -p repo/save/grid')
-                    utils.save_image_grid(x_test.data, 'repo/save/grid/{}_{}_G{}_D{}.jpg'.format(int(self.globalIter/self.config.save_img_every), self.phase, self.complete['gen'], self.complete['dis']))
-                    os.system('mkdir -p repo/save/resl_{}'.format(int(floor(self.resl))))
-                    utils.save_image_single(x_test.data, 'repo/save/resl_{}/{}_{}_G{}_D{}.jpg'.format(int(floor(self.resl)),int(self.globalIter/self.config.save_img_every), self.phase, self.complete['gen'], self.complete['dis']))
+                    os.system('mkdir -p chaise_0/repo/save/grid')
+                    utils.save_image_grid(x_test.data, 'chaise_0/repo/save/grid/{}_{}_G{}_D{}.jpg'.format(int(self.globalIter/self.config.save_img_every), self.phase, self.complete['gen'], self.complete['dis']))
+                    os.system('mkdir -p chaise_0/repo/save/resl_{}'.format(int(floor(self.resl))))
+                    utils.save_image_single(x_test.data, 'chaise_0/repo/save/resl_{}/{}_{}_G{}_D{}.jpg'.format(int(floor(self.resl)),int(self.globalIter/self.config.save_img_every), self.phase, self.complete['gen'], self.complete['dis']))
 
 
                 # tensorboard visualization.
